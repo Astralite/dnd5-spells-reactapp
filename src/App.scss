@@ -1,0 +1,78 @@
+.App {
+  position: relative;
+  margin: auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  color: white;
+  padding: 0px 0 0 0;
+}
+
+.toggle-fs {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background-image: url('./img/fs-icon.svg');
+  width: 25px;
+  height: 25px;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.4);
+    transition: transform 0.5s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+  }
+}
+
+.title {
+  margin: 10px;
+}
+
+.menu-item {
+  display: flex;
+}
+
+.title {
+  
+}
+
+.classes-dropdown {
+  border: 1px solid black;
+  width: 100%;
+  max-width: 800px;
+}
+
+.info-box {
+  border: 1px solid black;
+  height: 300px;
+}
+
+.level-selector {
+  border: 1px solid black;
+  
+  & div {
+    color: green;
+    border: 1px solid steelblue;
+  }
+}
+
+.class-spells-container {
+  border: 1px solid black;
+
+  & div {
+    color: greenyellow;
+    border: 1px solid steelblue;
+  }
+}
+
+.subclass-spells-container {
+  border: 1px solid black;
+
+    & div {
+      color: goldenrod;
+      border: 1px solid steelblue;
+    }
+}
