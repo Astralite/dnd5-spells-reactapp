@@ -10,7 +10,11 @@ class App extends Component {
     super();
 
     this.apiUrl = "https://www.dnd5eapi.co/api";
-    this.state = {};
+    this.state = {classes: [], selectedClass: ''};
+
+    this.selectClass = selectedClass => {
+      this.setState({...this.state, selectedClass});
+    };
   }
 
   componentDidMount() {
@@ -53,9 +57,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className="toggle-fs" onClick={toggleFullScreen} />
-        <h1 className="menu-item title">DnD Spells App</h1>
+        <h1 className="menu-item title">D&D Spells App</h1>
 
-        <ClassesDropdown />
+        <ClassesDropdown classes={this.state.classes} onClickFunction={this.selectClass} />
         <div className="menu-item info-box">Info Box</div>
         <div className="menu-item level-selector">
           <div>1-2</div>
