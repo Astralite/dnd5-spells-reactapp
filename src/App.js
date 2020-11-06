@@ -3,14 +3,14 @@ import axios from "axios";
 import toggleFullScreen from "./modules/fullscreen.js";
 
 import "./App.scss";
+import ClassesDropdown from './components/classes-dropdown/classes-dropdown';
 
 class App extends Component {
   constructor() {
     super();
 
-    this.state = {};
-
     this.apiUrl = "https://www.dnd5eapi.co/api";
+    this.state = {};
   }
 
   componentDidMount() {
@@ -54,7 +54,8 @@ class App extends Component {
       <div className="App">
         <div className="toggle-fs" onClick={toggleFullScreen} />
         <h1 className="menu-item title">DnD Spells App</h1>
-        <div className="menu-item classes-dropdown">Classes</div>
+
+        <ClassesDropdown />
         <div className="menu-item info-box">Info Box</div>
         <div className="menu-item level-selector">
           <div>1-2</div>
