@@ -3,17 +3,27 @@ import axios from "axios";
 import toggleFullScreen from "./modules/fullscreen.js";
 
 import "./App.scss";
-import ClassesDropdown from './components/classes-dropdown/classes-dropdown';
+import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
+import InfoBox from "./components/info-box/info-box";
+import Subtitle from "./components/subtitle/subtitle";
 
 class App extends Component {
   constructor() {
     super();
 
     this.apiUrl = "https://www.dnd5eapi.co/api";
-    this.state = {classes: [], selectedClass: ''};
+    this.state = {
+      classes: [],
+      selectedClass: {
+        className: "",
+        classIndex: "",
+        parentName: "",
+        parentIndex: "",
+      },
+    };
 
-    this.selectClass = selectedClass => {
-      this.setState({...this.state, selectedClass});
+    this.selectClass = (className, classIndex, parentName, parentIndex) => {
+      this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } });
     };
   }
 
@@ -59,8 +69,22 @@ class App extends Component {
         <div className="toggle-fs" onClick={toggleFullScreen} />
         <h1 className="menu-item title">D&D Spells App</h1>
 
-        <ClassesDropdown classes={this.state.classes} onClickFunction={this.selectClass} />
-        <div className="menu-item info-box">Info Box</div>
+        <ClassesDropdown
+          classes={this.state.classes}
+          onClickFunction={this.selectClass}
+        />
+        <div className="menu-item class-display-box">
+          <Subtitle prefix="Class: " text={this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex} />
+          <Subtitle prefix="SubClass: " text={this.state.selectedClass.parentIndex && this.state.selectedClass.classIndex} />
+        </div>
+        <InfoBox
+          selectedClass={this.state.selectedClass}
+          classInfo={this.state.classes.find(
+            (dndClass) =>
+              dndClass.index === this.state.selectedClass.classIndex ||
+              dndClass.index === this.state.selectedClass.parentIndex
+          )}
+        />
         <div className="menu-item level-selector">
           <div>1-2</div>
           <div>3-4</div>

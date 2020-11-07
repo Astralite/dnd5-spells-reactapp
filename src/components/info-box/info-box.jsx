@@ -1,0 +1,87 @@
+import React from 'react';
+
+import InfoBoxItem from '../info-box-item/info-box-item';
+import './info-box.scss';
+
+const attributes = [
+  {
+    key: "hit_die",
+    prefix: "Hit Die: "
+  },
+  {
+    key: "proficiency_choices",
+    prefix: "Proficiency Choices: "
+  },
+  {
+    key: "proficiencies",
+    prefix: ""
+  },
+  {
+    key: "saving_throws",
+    prefix: ""
+  },
+  {
+    key: "starting_equipment",
+    prefix: ""
+  },
+  {
+    key: "class_levels",
+    prefix: ""
+  },
+  {
+    key: "subclasses",
+    prefix: ""
+  },
+  {
+    key: "spellcasting",
+    prefix: ""
+  },
+  {
+    key: "spells",
+    prefix: ""
+  },
+  {
+    key: "url",
+    prefix: ""
+  },
+]
+
+const InfoBox = ({ selectedClass, classInfo }) => {
+  let displayAttributes = [];
+  if (classInfo) {
+    for (let i = 0; i < attributes.length; i++)  {
+      let { key, prefix } = attributes[i];
+      let info = classInfo[key];
+      prefix = prefix || key + ": ";
+      if (info) {displayAttributes.push({prefix, info})};
+    }
+    return (
+      <div className="menu-item info-box">
+        {displayAttributes.map((props) => (
+          <InfoBoxItem key={props.key} {...props} />
+        )
+        )}
+      </div>
+    )
+  } else {
+    return <div className="menu-item info-box">Nothing to see here.</div>
+  }
+
+
+  // if (classInfo && classInfo.proficiency_choices && !full) {
+  //   return (
+  //     <div className="menu-item info-box">
+  //       <InfoBoxItem prefix={attributes[0].prefix} info={classInfo.name} />
+  //       <InfoBoxItem prefix="Hit Die: " info={classInfo.hit_die} />
+  //     </div>
+  //   )
+  // } else {
+  //   return (
+  //     <div className="menu-item info-box">
+  //       <InfoBoxItem info={JSON.stringify(classInfo)} />
+  //     </div>
+  //   );
+  // }
+};
+
+export default InfoBox;

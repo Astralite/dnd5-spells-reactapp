@@ -1,0 +1,15 @@
+.info-box {
+  position: relative;
+  text-align: left;
+  display: block;
+  color: firebrick;
+  border: 1px solid black;
+  min-height: 300px;
+  max-height: 60vh;
+  width: 100%;
+  overflow: scroll;
+
+  & div {
+    word-wrap: break-word;
+  }
+}

@@ -16,8 +16,10 @@
   right: 15px;
   top: 15px;
   background-image: url('./img/fs-icon.svg');
-  width: 25px;
-  height: 25px;
+  width: 3vh;
+  height: 3vh;
+  max-width: 25px;
+  max-height: 25px;
 
   &:hover {
     cursor: pointer;
@@ -37,11 +39,6 @@
   width: 100%;
   max-width: 1000px;
   text-align: center;
-}
-
-.info-box {
-  border: 1px solid black;
-  height: 300px;
 }
 
 .level-selector {

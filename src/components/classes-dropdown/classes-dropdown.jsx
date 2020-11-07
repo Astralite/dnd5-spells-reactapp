@@ -15,11 +15,11 @@ const ClassesDropdown = ({ classes, onClickFunction }) => {
           {classes.map(dndClass => {
             // Prepare the sublasses for inclusion underneath each primary dnd Class
             const subClassItems = dndClass.subclasses && dndClass.subclasses.map(subClass => (
-              <Dropdown.Item key={subClass.index} onClick={() => {onClickFunction(subClass.index)}}>{subClass.name}</Dropdown.Item>
+              <Dropdown.Item key={subClass.index} onClick={() => {onClickFunction(subClass.name, subClass.index, dndClass.name, dndClass.index)}}>{subClass.name}</Dropdown.Item>
             ))
             return (
               <>
-                <Dropdown.Item key={dndClass.index} onClick={() => {onClickFunction(dndClass.index)}}>{dndClass.name}</Dropdown.Item>
+                <Dropdown.Item key={dndClass.index} onClick={() => {onClickFunction(dndClass.name, dndClass.index, '', '')}}>{dndClass.name}</Dropdown.Item>
                 {subClassItems}
                 <Dropdown.Divider />
               </>
