@@ -5,7 +5,8 @@ import toggleFullScreen from "./modules/fullscreen.js";
 import "./App.scss";
 import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
 import InfoBox from "./components/info-box/info-box";
-import Subtitle from "./components/subtitle/subtitle";
+import ClassDisplayContainer from './components/class-display-container/class-display-container';
+import SpellsContainer from './components/spells-container/spells-container';
 
 class App extends Component {
   constructor() {
@@ -37,6 +38,7 @@ class App extends Component {
         || dndClass.index === this.state.selectedClass.parentIndex
     )
 
+    // Retrieve updated data for the selected class
     this.updateClassInfo = () => {
       // const { classIndex, parentIndex } = this.state.selectedClass;
       const selectedClassIndex = this.state.selectedClass.classIndex;
@@ -64,10 +66,9 @@ class App extends Component {
       }
 
       // If the selected class is a subclass also retrieve subclass data
+      // Overwrite the old subclass properties for selected subclass with the new ones
       if (selectedParentIndex) {
         const currentSubClassInfo = this.selectedClassInfo().subclasses.find(({ index }) => index === selectedClassIndex);
-        console.log(currentSubClassInfo);
-        console.log(typeof currentSubClassInfo === "object" && currentSubClassInfo.desc === undefined);
         if (typeof currentSubClassInfo === "object" && currentSubClassInfo.desc === undefined) {
           axios.get(this.apiUrl + "/subclasses/" + selectedClassIndex)
           .then(({ data }) => {
@@ -137,10 +138,7 @@ class App extends Component {
           classes={this.state.classes}
           onClickFunction={this.selectClass}
         />
-        <div className="menu-item class-display-box">
-          <Subtitle prefix="Class: " text={this.state.selectedClass.parentName || this.state.selectedClass.className} />
-          <Subtitle prefix="SubClass: " text={this.state.selectedClass.parentName && this.state.selectedClass.className} />
-        </div>
+        <ClassDisplayContainer {...this.state.selectedClass} />
         <InfoBox
           selectedClass={this.state.selectedClass}
           classInfo={this.selectedClassInfo()}
@@ -150,11 +148,11 @@ class App extends Component {
           <div>3-4</div>
           <div>5-6</div>
         </div>
-        <div className="menu-item class-spells-container">
-          <div>Spell1</div>
-          <div>Spell2</div>
-          <div>Spell3</div>
-        </div>
+        <SpellsContainer spells={
+          (this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
+          ? this.selectedClassInfo().spells
+          : null
+        }/>
         <div className="menu-item subclass-spells-container">
           <div>Spell1</div>
           <div>Spell2</div>

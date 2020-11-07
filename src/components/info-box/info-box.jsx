@@ -37,10 +37,6 @@ const attributes = [
     prefix: ""
   },
   {
-    key: "spells",
-    prefix: ""
-  },
-  {
     key: "url",
     prefix: ""
   },
