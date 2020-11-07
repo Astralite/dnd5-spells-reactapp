@@ -23,8 +23,73 @@ class App extends Component {
     };
 
     this.selectClass = (className, classIndex, parentName, parentIndex) => {
-      this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } });
-    };
+      this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } },
+      this.updateClassInfo
+      );
+    }
+
+    // Function returns the current information for either:
+    // 1. The currently selected class if it is a primary class OR
+    // 2. The currently selected class' parent if it is a subclass
+    this.selectedClassInfo = () => this.state.classes.find(
+      (dndClass) =>
+        dndClass.index === this.state.selectedClass.classIndex
+        || dndClass.index === this.state.selectedClass.parentIndex
+    )
+
+    this.updateClassInfo = () => {
+      // const { classIndex, parentIndex } = this.state.selectedClass;
+      const selectedClassIndex = this.state.selectedClass.classIndex;
+      const selectedParentIndex = this.state.selectedClass.parentIndex;
+
+      // If not already obtained then get spell information for this class
+      // (or parent class in the case of subclass being selected)
+      const primaryClassIndex = (selectedParentIndex || selectedClassIndex);
+      const currentSpellInfo = this.selectedClassInfo().spells;
+      if (typeof currentSpellInfo === "string" && currentSpellInfo.indexOf("/api") >= 0) {
+        axios.get(this.apiUrl + "/classes/" + primaryClassIndex + "/spells")
+        .then(({ data }) => {
+          const classSpells = data.results;
+          this.setState(
+            {
+              ...this.state,
+              classes: this.state.classes.map((currentClassData) => {
+                return currentClassData.index === primaryClassIndex
+                  ? {...currentClassData, spells: classSpells}
+                  : currentClassData;
+              })
+            }
+          )
+        })
+      }
+
+      // If the selected class is a subclass also retrieve subclass data
+      if (selectedParentIndex) {
+        const currentSubClassInfo = this.selectedClassInfo().subclasses.find(({ index }) => index === selectedClassIndex);
+        console.log(currentSubClassInfo);
+        console.log(typeof currentSubClassInfo === "object" && currentSubClassInfo.desc === undefined);
+        if (typeof currentSubClassInfo === "object" && currentSubClassInfo.desc === undefined) {
+          axios.get(this.apiUrl + "/subclasses/" + selectedClassIndex)
+          .then(({ data }) => {
+            const subClassData = data;
+            this.setState(
+              {
+                ...this.state,
+                classes: this.state.classes.map((currentClassData) => {
+                  return currentClassData.index === selectedParentIndex // For the parent of the selected subclass...
+                    ? {...currentClassData, subclasses: currentClassData.subclasses.map(currentSubClassData => { // Assign existing properties again plus Map through each subclass item
+                      return currentSubClassData.index === selectedClassIndex // If the subclass item index matches the selected class index...
+                        ? subClassData // Return the new item data
+                        : currentSubClassData; // Otherwise return the old data
+                    })}
+                    : currentClassData;
+                  })
+              }
+            )
+          })
+        }
+      }
+    }
   }
 
   componentDidMount() {
@@ -45,7 +110,6 @@ class App extends Component {
       // Resolve promises and add the data to state
       axios.all(promises).then((responses) => {
         responses.forEach(({ data }) => {
-          console.log(data);
           let newClassData = data;
 
           // Here we update the state's "classes" array replacing
@@ -56,7 +120,7 @@ class App extends Component {
               return currentClassData.index === newClassData.index
                 ? newClassData
                 : currentClassData;
-            }),
+            })
           });
         });
       });
@@ -74,16 +138,12 @@ class App extends Component {
           onClickFunction={this.selectClass}
         />
         <div className="menu-item class-display-box">
-          <Subtitle prefix="Class: " text={this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex} />
-          <Subtitle prefix="SubClass: " text={this.state.selectedClass.parentIndex && this.state.selectedClass.classIndex} />
+          <Subtitle prefix="Class: " text={this.state.selectedClass.parentName || this.state.selectedClass.className} />
+          <Subtitle prefix="SubClass: " text={this.state.selectedClass.parentName && this.state.selectedClass.className} />
         </div>
         <InfoBox
           selectedClass={this.state.selectedClass}
-          classInfo={this.state.classes.find(
-            (dndClass) =>
-              dndClass.index === this.state.selectedClass.classIndex ||
-              dndClass.index === this.state.selectedClass.parentIndex
-          )}
+          classInfo={this.selectedClassInfo()}
         />
         <div className="menu-item level-selector">
           <div>1-2</div>

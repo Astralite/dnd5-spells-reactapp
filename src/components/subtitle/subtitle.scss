@@ -2,4 +2,9 @@
   justify-content: left;
   flex: 1 1 auto;
   display: flex;
+
+  .subtitle-text {
+    letter-spacing: 0.1em;
+    color: aliceblue;
+  }
 }

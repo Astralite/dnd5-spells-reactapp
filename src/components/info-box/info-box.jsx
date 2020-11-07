@@ -47,6 +47,7 @@ const attributes = [
 ]
 
 const InfoBox = ({ selectedClass, classInfo }) => {
+  
   let displayAttributes = [];
   if (classInfo) {
     for (let i = 0; i < attributes.length; i++)  {
@@ -67,21 +68,6 @@ const InfoBox = ({ selectedClass, classInfo }) => {
     return <div className="menu-item info-box">Nothing to see here.</div>
   }
 
-
-  // if (classInfo && classInfo.proficiency_choices && !full) {
-  //   return (
-  //     <div className="menu-item info-box">
-  //       <InfoBoxItem prefix={attributes[0].prefix} info={classInfo.name} />
-  //       <InfoBoxItem prefix="Hit Die: " info={classInfo.hit_die} />
-  //     </div>
-  //   )
-  // } else {
-  //   return (
-  //     <div className="menu-item info-box">
-  //       <InfoBoxItem info={JSON.stringify(classInfo)} />
-  //     </div>
-  //   );
-  // }
 };
 
 export default InfoBox;

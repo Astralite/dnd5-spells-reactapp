@@ -18,11 +18,11 @@ const ClassesDropdown = ({ classes, onClickFunction }) => {
               <Dropdown.Item key={subClass.index} onClick={() => {onClickFunction(subClass.name, subClass.index, dndClass.name, dndClass.index)}}>{subClass.name}</Dropdown.Item>
             ))
             return (
-              <>
+              <React.Fragment key={dndClass.index}>
                 <Dropdown.Item key={dndClass.index} onClick={() => {onClickFunction(dndClass.name, dndClass.index, '', '')}}>{dndClass.name}</Dropdown.Item>
                 {subClassItems}
                 <Dropdown.Divider />
-              </>
+              </React.Fragment>
             )
           })}
         </Dropdown.Menu>
