@@ -1,3 +1,8 @@
+// $dropdown-color: rgb(160, 10, 10);
+$dropdown-color: goldenrod;
+$dropdown-bg-color: #1d2124;
+$divider-color: rgba(255, 255, 255, 0.1);
+
 .App {
   position: relative;
   margin: auto;
@@ -43,20 +48,38 @@
   color: firebrick;
 }
 
-.level-selector {
-  border: 1px solid black;
-  
-  & div {
-    color: green;
-    border: 1px solid steelblue;
+.dropdown {
+  width: 30%;
+  flex: 1 1 auto;
+  min-width: 140px;
+  margin: 0 5px;
+}
+
+.dropdown-toggle {
+  width: 100%;
+  // text-transform: uppercase;
+}
+
+.dropdown-menu {
+  width: 100%;
+  background-color: $dropdown-bg-color;
+  padding: 0 0 0 0;
+}
+
+@media (max-width: 3000px) {
+  .dropdown-menu{
+    max-height:80vh;
+    overflow-y:auto;
   }
 }
 
-.subclass-spells-container {
-  border: 1px solid black;
+.dropdown-item {
+  color: $dropdown-color;
+  background-color: $dropdown-bg-color;
+  font-weight: bold;
+}
 
-    & div {
-      color: goldenrod;
-      border: 1px solid steelblue;
-    }
+.dropdown-divider {
+  border-top: 1px solid $divider-color;
+  margin: 0;
 }

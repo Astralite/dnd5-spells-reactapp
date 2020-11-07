@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './subtitle.scss';
 
 const Subtitle = ({ prefix, text }) => {

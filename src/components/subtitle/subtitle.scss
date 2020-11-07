@@ -1,7 +1,8 @@
 .subtitle {
   justify-content: left;
-  flex: 1 1 auto;
-  display: flex;
+  flex: 1 1 10px;
+  min-width: 120px;
+  // display: flex;
 
   .subtitle-text {
     letter-spacing: 0.1em;

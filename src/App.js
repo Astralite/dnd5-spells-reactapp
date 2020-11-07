@@ -7,6 +7,8 @@ import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
 import InfoBox from "./components/info-box/info-box";
 import ClassDisplayContainer from './components/class-display-container/class-display-container';
 import SpellsContainer from './components/spells-container/spells-container';
+import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
+import { Container } from "react-bootstrap";
 
 class App extends Component {
   constructor() {
@@ -140,26 +142,29 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+
         <div className="toggle-fs" onClick={toggleFullScreen} />
         <h1 className="menu-item title">D&D Spells</h1>
 
-        <ClassesDropdown
-          classes={this.state.classes}
-          onClickFunction={this.selectClass}
-        />
+        <div className="menu-item selectors-container row">
+          <ClassesDropdown
+            classes={this.state.classes}
+            onClickFunction={this.selectClass}
+          />
+          <LevelSelectorDropdown />
+        </div>
+
         <ClassDisplayContainer {...this.state.selectedClass} />
+
         <InfoBox
           selectedClass={this.state.selectedClass}
           classInfo={this.selectedClassInfo()}
         />
-        <div className="menu-item level-selector">
-          <div>1-2</div>
-          <div>3-4</div>
-          <div>5-6</div>
-        </div>
+
         <h4 className="menu-item title">Class Spells</h4>
         {(this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
         && <SpellsContainer spells={this.selectedClassInfo().spells}/>}
+
         <h4 className="menu-item title">SubClass Spells</h4>
         {
           (
@@ -168,6 +173,7 @@ class App extends Component {
           )
           && <SpellsContainer spells={this.selectedSubClassInfo().spells} />
         }
+
       </div>
     );
   }
