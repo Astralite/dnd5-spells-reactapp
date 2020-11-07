@@ -3,15 +3,7 @@
   flex-wrap: wrap;
   border: 1px solid black;
   height: 300px;
-  overflow: scroll;
-}
-
-.spell {
-  color: greenyellow;
-  border: 1px solid steelblue;
-  width: 30%;
-  height: 30px;
-  padding: 3px;
-  display: flex;
-  flex: 1 1 auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  align-content: flex-start;
 }

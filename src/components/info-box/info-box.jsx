@@ -50,12 +50,13 @@ const InfoBox = ({ selectedClass, classInfo }) => {
       let { key, prefix } = attributes[i];
       let info = classInfo[key];
       prefix = prefix || key + ": ";
-      if (info) {displayAttributes.push({prefix, info})};
+      if (info) {displayAttributes.push({key, prefix, info})};
     }
     return (
       <div className="menu-item info-box">
-        {displayAttributes.map((props) => (
-          <InfoBoxItem key={props.key} {...props} />
+        {
+          displayAttributes.map((properties) => (
+          <InfoBoxItem key={properties.key} {...properties} />
         )
         )}
       </div>

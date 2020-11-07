@@ -33,14 +33,23 @@ class App extends Component {
     // 1. The currently selected class if it is a primary class OR
     // 2. The currently selected class' parent if it is a subclass
     this.selectedClassInfo = () => this.state.classes.find(
-      (dndClass) =>
+      (dndClass) => (
         dndClass.index === this.state.selectedClass.classIndex
         || dndClass.index === this.state.selectedClass.parentIndex
+      )
+    )
+
+    // Function returns the current information for selected subclass or undefined
+    // if selected class is not a subclass or not found in the parent
+    this.selectedSubClassInfo = () => (
+      this.selectedClassInfo()
+      && this.selectedClassInfo().subclasses.find(
+        (subClass) => (subClass.index === this.state.selectedClass.classIndex)
+      )
     )
 
     // Retrieve updated data for the selected class
     this.updateClassInfo = () => {
-      // const { classIndex, parentIndex } = this.state.selectedClass;
       const selectedClassIndex = this.state.selectedClass.classIndex;
       const selectedParentIndex = this.state.selectedClass.parentIndex;
 
@@ -132,7 +141,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="toggle-fs" onClick={toggleFullScreen} />
-        <h1 className="menu-item title">D&D Spells App</h1>
+        <h1 className="menu-item title">D&D Spells</h1>
 
         <ClassesDropdown
           classes={this.state.classes}
@@ -148,16 +157,17 @@ class App extends Component {
           <div>3-4</div>
           <div>5-6</div>
         </div>
-        <SpellsContainer spells={
-          (this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
-          ? this.selectedClassInfo().spells
-          : null
-        }/>
-        <div className="menu-item subclass-spells-container">
-          <div>Spell1</div>
-          <div>Spell2</div>
-          <div>Spell3</div>
-        </div>
+        <h4 className="menu-item title">Class Spells</h4>
+        {(this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
+        && <SpellsContainer spells={this.selectedClassInfo().spells}/>}
+        <h4 className="menu-item title">SubClass Spells</h4>
+        {
+          (
+            this.selectedSubClassInfo()
+            && typeof this.selectedSubClassInfo().spells === "object"
+          )
+          && <SpellsContainer spells={this.selectedSubClassInfo().spells} />
+        }
       </div>
     );
   }

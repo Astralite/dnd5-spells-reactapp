@@ -1,20 +1,14 @@
 import React from 'react';
+import SpellCell from '../spell-cell/spell-cell';
 
 import './spells-container.scss';
 
-const SpellsContainer = ({spells}) => {
-  console.log(spells);
-  if (spells != null ) {
-    return (
-      <div className="menu-item spells-container">
-        {spells.map(spell => (
-          <div className="spell" key={spells.index}>{spell.name.slice(0,14)}</div>
-        ))}
-      </div>
-    );
-  } else {
-    return ''
-  }
-};
+const SpellsContainer = ({spells}) => (
+  <div className="menu-item spells-container">
+    {spells.map(spell => (
+      <SpellCell key={spell.index || spell.spell.index} spellName={spell.name || spell.spell.name} />
+    ))}
+  </div>
+)
 
 export default SpellsContainer;
