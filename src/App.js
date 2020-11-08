@@ -207,16 +207,16 @@ class App extends Component {
 
         <h4 className="menu-item title">Class Spells</h4>
         {
-          this.selectedClassInfo()
-          && typeof this.selectedClassInfo().spells === "object"
-          && <SpellCellContainer spells={this.selectedClassInfo().spells}/>
+          this.selectedClassInfo() // If there is class info available...
+          && typeof this.selectedClassInfo().spells === "object" // and the class object returned has a spells property...
+          && <SpellCellContainer spells={this.selectedClassInfo().spells}/> // render SpellsContainer with spells from selected class
         }
 
         <h4 className="menu-item title">SubClass Spells</h4>
         {
           this.selectedSubClassInfo() // If there is subclass info available...
           && typeof this.selectedSubClassInfo().spells === "object" // and the subclass object returned has a spells property...
-          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from subclass
+          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from selected subclass
         }
       </div>
     );
