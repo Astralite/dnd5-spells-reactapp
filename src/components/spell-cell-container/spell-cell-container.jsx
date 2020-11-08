@@ -3,7 +3,7 @@ import SpellCell from '../spell-cell/spell-cell';
 
 import './spell-cell-container.scss';
 
-const SpellCellContainer = ({spells}) => {
+const SpellCellContainer = ({ spells, cellClickFunction }) => {
 
   // Class and subclass spells data use two different formats
   // so here we format subclass data to be like that of class
@@ -15,7 +15,7 @@ const SpellCellContainer = ({spells}) => {
   return (
     <div className="menu-item spells-container">
       {spells.map(spell => (
-        <SpellCell key={spell.index} spellName={spell.name} />
+        <SpellCell key={spell.index} spellIndex={spell.index} spellName={spell.name} cellClickFunction={cellClickFunction}/>
       ))}
     </div>
   )

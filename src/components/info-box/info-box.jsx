@@ -62,7 +62,7 @@ const InfoBox = ({ selectedClass, classInfo }) => {
       </div>
     )
   } else {
-    return <div className="menu-item info-box">Nothing to see here.</div>
+    return <div className="menu-item info-box">No Class Selected</div>
   }
 
 };

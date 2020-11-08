@@ -2,9 +2,9 @@ import React from 'react';
 
 import './spell-cell.scss';
 
-const SpellCell = ({ spellName }) => {
+const SpellCell = ({ spellIndex, spellName, cellClickFunction }) => {
   return (
-    <div className="spell-cell">
+    <div className="spell-cell" onClick={() => cellClickFunction(spellIndex)}>
       {spellName}
     </div>
   );

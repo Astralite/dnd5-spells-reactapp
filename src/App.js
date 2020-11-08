@@ -9,6 +9,7 @@ import ClassDisplayContainer from './components/subtitle-container/subtitle-cont
 import SpellCellContainer from './components/spell-cell-container/spell-cell-container';
 import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
 import SpellSlots from './components/spell-slots/spell-slots';
+import SpellModal from './components/spell-modal/spell-modal';
 
 class App extends Component {
   constructor() {
@@ -24,12 +25,33 @@ class App extends Component {
         parentIndex: "",
       },
       selectedLevel: 1,
-      levelInfo: {}
+      selectedSpell: '',
+      levelInfo: {},
+      spellInfo: {},
+      showModal: true
     };
 
+    this.toggleModal = () => {
+      this.setState({ ...this.state, showModal: !this.state.showModal });
+    }
+
+    this.hideModal = () => {
+      this.setState({ ...this.state, showModal: false });
+    }
+
+    this.showModal = () => {
+      this.setState({ ...this.state, showModal: true });
+    }
+    
+    this.selectSpell = (selectedSpell) => {
+      this.setState({ ...this.state, selectedSpell }
+      ,this.showModal
+      );
+    }
+
     this.selectClass = (className, classIndex, parentName, parentIndex) => {
-      this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } },
-      this.updateClassInfo
+      this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } }
+      ,this.updateClassInfo
       );
     }
 
@@ -67,7 +89,7 @@ class App extends Component {
       // If not already obtained then get spell information for this class
       // (or parent class in the case of subclass being selected)
       const currentSpellInfo = this.selectedClassInfo().spells;
-      if (typeof currentSpellInfo === "string" && currentSpellInfo.indexOf("/api") >= 0) {
+      if (typeof currentSpellInfo === "string" && currentSpellInfo.indexOf("/api") >= 0) { // if we haven't retrieved spell info yet...
         axios.get(this.apiUrl + "/classes/" + primaryClassIndex + "/spells")
         .then(({ data }) => {
           const classSpells = data.results;
@@ -81,6 +103,30 @@ class App extends Component {
               })
             }
           )
+
+          // Retrieve information for each spell
+          let promises = [];
+          for (let i = 0; i < classSpells.length; i++) {
+            console.log(classSpells[i].index);
+            promises.push(axios.get(`${this.apiUrl}/spells/${classSpells[i].index}`));
+          }
+          
+          // Resolve promises and add the data to state
+          axios.all(promises).then((responses) => {
+            responses.forEach(({ data }) => {
+              let newSpellInfo = data;
+              let spellInfo = this.state.spellInfo;
+              spellInfo[newSpellInfo.index] = newSpellInfo;
+
+              this.setState(
+                {
+                  ...this.state,
+                  spellInfo
+                }
+              )
+            })
+          })
+
         })
       }
 
@@ -135,6 +181,10 @@ class App extends Component {
 
         })
       }
+    }
+
+    this.updateSpellInfo = () => {
+
     }
 
   }
@@ -209,15 +259,24 @@ class App extends Component {
         {
           this.selectedClassInfo() // If there is class info available...
           && typeof this.selectedClassInfo().spells === "object" // and the class object returned has a spells property...
-          && <SpellCellContainer spells={this.selectedClassInfo().spells}/> // render SpellsContainer with spells from selected class
+          && <SpellCellContainer spells={this.selectedClassInfo().spells} cellClickFunction={this.selectSpell} /> // render SpellsContainer with spells from selected class
         }
 
         <h4 className="menu-item title">SubClass Spells</h4>
         {
           this.selectedSubClassInfo() // If there is subclass info available...
           && typeof this.selectedSubClassInfo().spells === "object" // and the subclass object returned has a spells property...
-          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from selected subclass
+          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} cellClickFunction={this.selectSpell} /> // render SpellsContainer with spells from selected subclass
         }
+
+        {this.state.selectedSpell // If a spell has been selected
+        && <SpellModal
+          show={this.state.showModal}
+          onHide={this.hideModal}
+          heading={this.state.selectedSpell}
+          content={this.state.selectedSpell}
+        />}
+
       </div>
     );
   }
