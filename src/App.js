@@ -206,8 +206,11 @@ class App extends Component {
         }
 
         <h4 className="menu-item title">Class Spells</h4>
-        {(this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
-        && <SpellCellContainer spells={this.selectedClassInfo().spells}/>}
+        {
+          this.selectedClassInfo()
+          && typeof this.selectedClassInfo().spells === "object"
+          && <SpellCellContainer spells={this.selectedClassInfo().spells}/>
+        }
 
         <h4 className="menu-item title">SubClass Spells</h4>
         {
