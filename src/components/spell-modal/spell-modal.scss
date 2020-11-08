@@ -9,6 +9,32 @@
     display: flex;
     flex: 1 1 auto;
     margin: 4px 10px;
-    // max-width: 150px;
   }
+}
+
+.modal-content {
+  border: 2px solid #3a1111 !important;
+  background-color: rgb(25, 25, 29);
+}
+
+.modal-header {
+  color: firebrick;
+  background-color: rgb(25, 25, 29);
+  border-color: #111111;
+  
+  & button {
+    color: red;
+  }
+}
+
+.modal-body {
+  color: firebrick;
+  background-color: rgb(25, 25, 29);
+  border-color: #111111;
+}
+
+.modal-footer {
+  color: maroon;
+  background-color: rgb(25, 25, 29);
+  border-color: #111111;
 }

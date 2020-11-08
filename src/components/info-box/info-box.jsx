@@ -6,8 +6,6 @@ const InfoBox = ({ selectedClass, classInfo }) => {
   
   if (classInfo) {
 
-    console.log(classInfo);
-
     const { hit_die, proficiencies, proficiency_choices, saving_throws } = classInfo;
 
     return (
@@ -20,7 +18,7 @@ const InfoBox = ({ selectedClass, classInfo }) => {
         <div className="saving-throws">
           <span>Savings Throws:</span>
 
-          {saving_throws.map(sT => (
+          {typeof saving_throws === "object" && saving_throws.map(sT => (
             <div key={sT.index} className="saving-throw">
               {sT.name}
             </div>
@@ -30,7 +28,7 @@ const InfoBox = ({ selectedClass, classInfo }) => {
         <div className="proficiencies">
           <span>Proficiencies:</span>
 
-          {proficiencies.map(proficiency => (
+          {typeof proficiencies === "object" && proficiencies.map(proficiency => (
             <div key={proficiency.index} className="proficiency">
               {proficiency.name}
             </div>
@@ -40,7 +38,7 @@ const InfoBox = ({ selectedClass, classInfo }) => {
         <div className="proficiency-choices">
           <span>Proficiency Choices: </span>
 
-          {proficiency_choices[0].from.map(choice => (
+          {typeof proficiency_choices === "object" && (proficiency_choices.length > 0) && proficiency_choices[0].from.map(choice => (
             <div key={choice.index} className="proficiency">
               {choice.name}
             </div>

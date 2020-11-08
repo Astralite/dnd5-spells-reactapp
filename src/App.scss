@@ -5,10 +5,18 @@ $divider-color: rgba(255, 255, 255, 0.1);
 $color-style-1: steelblue;
 $color-style-2: rgb(70, 180, 88);
 
+@font-face {
+  font-family: 'Dungeon';
+  src: local('Dungeon'), url('./dungeon.ttf') format('tff');
+}
+
 .App {
   position: relative;
   margin: auto;
   background-color: #282c34;
+  background: url('./img/dark-bricks.jpg') rgba(0,0,0,0.6);
+  background-blend-mode: multiply;
+  // background-size: 120%;
   min-height: 100vh;
   max-width: 1200px;
   display: flex;
@@ -46,8 +54,15 @@ $color-style-2: rgb(70, 180, 88);
 }
 
 .title {
-  margin: 6px;
   color: firebrick;
+  font-family: dungeon;
+  margin: 8px;
+  padding: 6px;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2.8em;
 }
 
 .dropdown {
@@ -79,6 +94,10 @@ $color-style-2: rgb(70, 180, 88);
   color: $dropdown-color;
   background-color: $dropdown-bg-color;
   font-weight: bold;
+
+  &:active {
+    background-color: maroon !important;
+  }
 }
 
 .dropdown-divider {
