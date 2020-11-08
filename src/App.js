@@ -6,7 +6,7 @@ import "./App.scss";
 import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
 import InfoBox from "./components/info-box/info-box";
 import ClassDisplayContainer from './components/subtitle-container/subtitle-container';
-import SpellsContainer from './components/spells-container/spells-container';
+import SpellCellContainer from './components/spell-cell-container/spell-cell-container';
 import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
 import SpellSlots from './components/spell-slots/spell-slots';
 
@@ -207,13 +207,13 @@ class App extends Component {
 
         <h4 className="menu-item title">Class Spells</h4>
         {(this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
-        && <SpellsContainer spells={this.selectedClassInfo().spells}/>}
+        && <SpellCellContainer spells={this.selectedClassInfo().spells}/>}
 
         <h4 className="menu-item title">SubClass Spells</h4>
         {
           this.selectedSubClassInfo() // If there is subclass info available...
           && typeof this.selectedSubClassInfo().spells === "object" // and the subclass object returned has a spells property...
-          && <SpellsContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from subclass
+          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from subclass
         }
       </div>
     );
