@@ -34,7 +34,7 @@ class App extends Component {
 
     this.selectLevel = (selectedLevel = 1) => {
       this.setState({ ...this.state, selectedLevel },
-      this.updateSpellSlots
+      this.updateLevelInfo
       );
     }
 
@@ -107,9 +107,12 @@ class App extends Component {
           })
         }
       }
+
+      // Also update spellSlot info
+      this.updateLevelInfo();
     }
 
-    this.updateSpellSlots = () => {
+    this.updateLevelInfo = () => {
       const primaryClassIndex = this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex;
       if(!primaryClassIndex) return undefined;
       const currentSpellSlotInfo = this.state.spellSlots[primaryClassIndex];
@@ -120,6 +123,16 @@ class App extends Component {
         .then(({ data }) => {
           const classLevels = data;
           console.log(classLevels);
+
+          let spellSlots = this.state.spellSlots;
+          spellSlots[primaryClassIndex] = data;
+          this.setState(
+            {
+              ...this.state,
+              spellSlots
+            }
+          )
+          
         })
       }
     }
