@@ -21,8 +21,6 @@ const SpellSlots = ({ levelInfo, selectedLevel }) => {
       let key = `spell_slots_level_${level}`;
       let numberOfSlots = spellCastingInfo[key];
 
-      console.log(`${level}. ${totalSpellSlots} += ${numberOfSlots || 0}`)
-
       totalSpellSlots += numberOfSlots || 0;
       if (numberOfSlots) {itemsToDisplay.push({key, level, info: numberOfSlots})};
     }

@@ -8,4 +8,8 @@
   flex: 0 0 106px;
   overflow: hidden;
   margin: 1px 1px;
+  
+  &:hover {
+    border: 1px solid yellow;
+  }
 }

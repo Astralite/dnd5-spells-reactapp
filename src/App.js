@@ -51,12 +51,13 @@ class App extends Component {
 
     // Function returns the current information for selected subclass or undefined
     // if selected class is not a subclass or not found in the parent
-    this.selectedSubClassInfo = () => (
-      this.selectedClassInfo()
-      && this.selectedClassInfo().subclasses.find(
-        (subClass) => (subClass.index === this.state.selectedClass.classIndex)
-      )
-    )
+    this.selectedSubClassInfo = () => {
+      if (!this.state.selectedClass.parentIndex) return undefined;
+      const { subclasses } = this.selectedClassInfo();
+      return subclasses.find(subClass => (
+        subClass.index === this.state.selectedClass.classIndex
+      ))
+    }
 
     // Retrieve updated data for the selected class
     this.updateClassInfo = () => {
@@ -210,13 +211,10 @@ class App extends Component {
 
         <h4 className="menu-item title">SubClass Spells</h4>
         {
-          (
-            this.selectedSubClassInfo()
-            && typeof this.selectedSubClassInfo().spells === "object"
-          )
-          && <SpellsContainer spells={this.selectedSubClassInfo().spells} />
+          this.selectedSubClassInfo() // If there is subclass info available...
+          && typeof this.selectedSubClassInfo().spells === "object" // and the subclass object returned has a spells property...
+          && <SpellsContainer spells={this.selectedSubClassInfo().spells} /> // render SpellsContainer with spells from subclass
         }
-
       </div>
     );
   }
