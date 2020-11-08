@@ -45,8 +45,22 @@ class App extends Component {
     
     this.selectSpell = (selectedSpell) => {
       this.setState({ ...this.state, selectedSpell }
-      ,this.showModal
+        ,this.showModal // Callback function displays modal component on screen
       );
+
+      // Also retrieve the spell information for selected spell and save it to state
+      axios.get(this.apiUrl + "/spells/" + selectedSpell)
+      .then(({ data }) => {
+        const newSpellInfo = data;
+        let spellInfo = this.state.spellInfo;
+        spellInfo[newSpellInfo.index] = newSpellInfo;
+        this.setState(
+          {
+            ...this.state,
+            spellInfo
+          }
+        )
+      })
     }
 
     this.selectClass = (className, classIndex, parentName, parentIndex) => {
@@ -104,29 +118,6 @@ class App extends Component {
             }
           )
 
-          // Retrieve information for each spell
-          let promises = [];
-          for (let i = 0; i < classSpells.length; i++) {
-            console.log(classSpells[i].index);
-            promises.push(axios.get(`${this.apiUrl}/spells/${classSpells[i].index}`));
-          }
-          
-          // Resolve promises and add the data to state
-          axios.all(promises).then((responses) => {
-            responses.forEach(({ data }) => {
-              let newSpellInfo = data;
-              let spellInfo = this.state.spellInfo;
-              spellInfo[newSpellInfo.index] = newSpellInfo;
-
-              this.setState(
-                {
-                  ...this.state,
-                  spellInfo
-                }
-              )
-            })
-          })
-
         })
       }
 
@@ -181,10 +172,6 @@ class App extends Component {
 
         })
       }
-    }
-
-    this.updateSpellInfo = () => {
-
     }
 
   }
@@ -255,26 +242,27 @@ class App extends Component {
             />
         }
 
-        <h4 className="menu-item title">Class Spells</h4>
+        <h4 className="menu-item title color-style-1">Class Spells</h4>
         {
           this.selectedClassInfo() // If there is class info available...
           && typeof this.selectedClassInfo().spells === "object" // and the class object returned has a spells property...
-          && <SpellCellContainer spells={this.selectedClassInfo().spells} cellClickFunction={this.selectSpell} /> // render SpellsContainer with spells from selected class
+          && <SpellCellContainer spells={this.selectedClassInfo().spells} cellClickFunction={this.selectSpell} colorStyle="color-style-1" /> // render SpellsContainer with spells from selected class
         }
 
-        <h4 className="menu-item title">SubClass Spells</h4>
+        <h4 className="menu-item title color-style-2">SubClass Spells</h4>
         {
           this.selectedSubClassInfo() // If there is subclass info available...
           && typeof this.selectedSubClassInfo().spells === "object" // and the subclass object returned has a spells property...
-          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} cellClickFunction={this.selectSpell} /> // render SpellsContainer with spells from selected subclass
+          && <SpellCellContainer spells={this.selectedSubClassInfo().spells} cellClickFunction={this.selectSpell} colorStyle="color-style-2" /> // render SpellsContainer with spells from selected subclass
         }
 
         {this.state.selectedSpell // If a spell has been selected
         && <SpellModal
           show={this.state.showModal}
           onHide={this.hideModal}
-          heading={this.state.selectedSpell}
-          content={this.state.selectedSpell}
+          spellInfo={
+            this.state.spellInfo[this.state.selectedSpell] || this.state.selectedSpell
+          }
         />}
 
       </div>

@@ -2,7 +2,12 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Modal';
 
-function SpellModal({ show, onHide, heading, content }) {
+import './spell-modal.scss';
+
+function SpellModal({ show, onHide, spellInfo }) {
+  const { name, desc, level, duration, range } = spellInfo;
+  const heading = name || "Loading...";
+  const content = desc || "";
   return (
     <Modal
       show={show}
@@ -17,6 +22,11 @@ function SpellModal({ show, onHide, heading, content }) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <div className="attributes-container">
+          <div className="attribute"><b>Level:&nbsp;</b>{level}</div>
+          <div className="attribute"><b>Duration:&nbsp;</b>{duration}</div>
+          <div className="attribute"><b>Range:&nbsp;</b>{range}</div>
+        </div>
         {content}
       </Modal.Body>
       <Modal.Footer>

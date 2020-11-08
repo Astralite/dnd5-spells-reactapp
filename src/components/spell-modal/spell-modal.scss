@@ -1,0 +1,14 @@
+.attributes-container {
+  margin: 6px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  
+  .attribute {
+    display: flex;
+    flex: 1 1 auto;
+    margin: 4px 10px;
+    // max-width: 150px;
+  }
+}

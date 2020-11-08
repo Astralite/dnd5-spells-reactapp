@@ -2,6 +2,8 @@
 $dropdown-color: goldenrod;
 $dropdown-bg-color: #1d2124;
 $divider-color: rgba(255, 255, 255, 0.1);
+$color-style-1: steelblue;
+$color-style-2: rgb(70, 180, 88);
 
 .App {
   position: relative;
@@ -82,4 +84,12 @@ $divider-color: rgba(255, 255, 255, 0.1);
 .dropdown-divider {
   border-top: 1px solid $divider-color;
   margin: 0;
+}
+
+.color-style-1 {
+  color: $color-style-1;
+}
+
+.color-style-2 {
+  color: $color-style-2;
 }
