@@ -1,6 +1,5 @@
 import React from 'react';
 
-import InfoBoxItem from '../info-box-item/info-box-item';
 import './info-box.scss';
 
 const InfoBox = ({ selectedClass, classInfo }) => {
