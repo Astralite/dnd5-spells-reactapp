@@ -5,7 +5,7 @@ import toggleFullScreen from "./modules/fullscreen.js";
 import "./App.scss";
 import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
 import InfoBox from "./components/info-box/info-box";
-import ClassDisplayContainer from './components/subtitle-container/subtitle-container';
+import SubTitleDisplayContainer from './components/subtitle-container/subtitle-container';
 import SpellCellContainer from './components/spell-cell-container/spell-cell-container';
 import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
 import SpellSlots from './components/spell-slots/spell-slots';
@@ -228,7 +228,7 @@ class App extends Component {
           />
         </div>
 
-        <ClassDisplayContainer {...this.state.selectedClass} selectedLevel={this.state.selectedLevel} />
+        <SubTitleDisplayContainer {...this.state.selectedClass} selectedLevel={this.state.selectedLevel} />
 
         <InfoBox
           classInfo={this.selectedClassInfo()}

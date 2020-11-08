@@ -3,62 +3,51 @@ import React from 'react';
 import InfoBoxItem from '../info-box-item/info-box-item';
 import './info-box.scss';
 
-const attributes = [
-  {
-    key: "hit_die",
-    prefix: "Hit Die: "
-  },
-  {
-    key: "proficiency_choices",
-    prefix: "Proficiency Choices: "
-  },
-  {
-    key: "proficiencies",
-    prefix: ""
-  },
-  {
-    key: "saving_throws",
-    prefix: ""
-  },
-  {
-    key: "starting_equipment",
-    prefix: ""
-  },
-  {
-    key: "class_levels",
-    prefix: ""
-  },
-  {
-    key: "subclasses",
-    prefix: ""
-  },
-  {
-    key: "spellcasting",
-    prefix: ""
-  },
-  {
-    key: "url",
-    prefix: ""
-  }
-]
-
 const InfoBox = ({ selectedClass, classInfo }) => {
   
-  let displayAttributes = [];
   if (classInfo) {
-    for (let i = 0; i < attributes.length; i++)  {
-      let { key, prefix } = attributes[i];
-      let info = classInfo[key];
-      prefix = prefix || key + ": ";
-      if (info) {displayAttributes.push({key, prefix, info})};
-    }
+
+    console.log(classInfo);
+
+    const { hit_die, proficiencies, proficiency_choices, saving_throws } = classInfo;
+
     return (
       <div className="menu-item info-box">
-        {
-          displayAttributes.map((properties) => (
-          <InfoBoxItem key={properties.key} {...properties} />
-        )
-        )}
+
+        <div className="hit-die">
+          <span>Hit Die:</span> {hit_die}
+        </div>
+
+        <div className="saving-throws">
+          <span>Savings Throws:</span>
+
+          {saving_throws.map(sT => (
+            <div key={sT.index} className="saving-throw">
+              {sT.name}
+            </div>
+          ))}
+        </div>
+
+        <div className="proficiencies">
+          <span>Proficiencies:</span>
+
+          {proficiencies.map(proficiency => (
+            <div key={proficiency.index} className="proficiency">
+              {proficiency.name}
+            </div>
+          ))}
+        </div>
+
+        <div className="proficiency-choices">
+          <span>Proficiency Choices: </span>
+
+          {proficiency_choices[0].from.map(choice => (
+            <div key={choice.index} className="proficiency">
+              {choice.name}
+            </div>
+          ))}
+        </div>
+
       </div>
     )
   } else {

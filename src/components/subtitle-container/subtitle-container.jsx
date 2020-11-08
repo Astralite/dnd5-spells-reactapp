@@ -3,7 +3,7 @@ import Subtitle from "../subtitle/subtitle";
 
 import './subtitle-container.scss';
 
-const ClassDisplayContainer = ({ parentName, className, selectedLevel }) => {
+const SubTitleDisplayContainer = ({ parentName, className, selectedLevel }) => {
   return (
     <div className="menu-item class-display-box row">
       <Subtitle prefix="Class: " text={parentName || className} />
@@ -13,4 +13,4 @@ const ClassDisplayContainer = ({ parentName, className, selectedLevel }) => {
   );
 };
 
-export default ClassDisplayContainer;
+export default SubTitleDisplayContainer;
