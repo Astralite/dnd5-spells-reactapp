@@ -5,7 +5,7 @@ import './subtitle.scss';
 const Subtitle = ({ prefix, text }) => {
   return (
     <div className="subtitle">
-      {prefix}&nbsp;<div className="subtitle-text">{text.toUpperCase()}</div>
+      {prefix}&nbsp;<div className="subtitle-text">{text.toString().toUpperCase()}</div>
     </div>
   );
 };

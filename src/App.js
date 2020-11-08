@@ -5,10 +5,9 @@ import toggleFullScreen from "./modules/fullscreen.js";
 import "./App.scss";
 import ClassesDropdown from "./components/classes-dropdown/classes-dropdown";
 import InfoBox from "./components/info-box/info-box";
-import ClassDisplayContainer from './components/class-display-container/class-display-container';
+import ClassDisplayContainer from './components/subtitle-container/subtitle-container';
 import SpellsContainer from './components/spells-container/spells-container';
 import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
-import { Container } from "react-bootstrap";
 
 class App extends Component {
   constructor() {
@@ -23,11 +22,19 @@ class App extends Component {
         parentName: "",
         parentIndex: "",
       },
+      selectedLevel: 1,
+      spellSlots: {}
     };
 
     this.selectClass = (className, classIndex, parentName, parentIndex) => {
       this.setState({ ...this.state, selectedClass: { className, classIndex, parentName, parentIndex } },
       this.updateClassInfo
+      );
+    }
+
+    this.selectLevel = (selectedLevel = 1) => {
+      this.setState({ ...this.state, selectedLevel },
+      this.updateSpellSlots
       );
     }
 
@@ -54,10 +61,9 @@ class App extends Component {
     this.updateClassInfo = () => {
       const selectedClassIndex = this.state.selectedClass.classIndex;
       const selectedParentIndex = this.state.selectedClass.parentIndex;
-
+      const primaryClassIndex = (selectedParentIndex || selectedClassIndex);
       // If not already obtained then get spell information for this class
       // (or parent class in the case of subclass being selected)
-      const primaryClassIndex = (selectedParentIndex || selectedClassIndex);
       const currentSpellInfo = this.selectedClassInfo().spells;
       if (typeof currentSpellInfo === "string" && currentSpellInfo.indexOf("/api") >= 0) {
         axios.get(this.apiUrl + "/classes/" + primaryClassIndex + "/spells")
@@ -102,6 +108,22 @@ class App extends Component {
         }
       }
     }
+
+    this.updateSpellSlots = () => {
+      const primaryClassIndex = this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex;
+      if(!primaryClassIndex) return undefined;
+      const currentSpellSlotInfo = this.state.spellSlots[primaryClassIndex];
+      // If not already obtained then get spell slot information for this class
+      // (or parent class in the case of subclass being selected)
+      if (typeof currentSpellSlotInfo === "undefined") {
+        axios.get(this.apiUrl + "/classes/" + primaryClassIndex + "/levels")
+        .then(({ data }) => {
+          const classLevels = data;
+          console.log(classLevels);
+        })
+      }
+    }
+
   }
 
   componentDidMount() {
@@ -151,10 +173,12 @@ class App extends Component {
             classes={this.state.classes}
             onClickFunction={this.selectClass}
           />
-          <LevelSelectorDropdown />
+          <LevelSelectorDropdown
+            onClickFunction={this.selectLevel}
+          />
         </div>
 
-        <ClassDisplayContainer {...this.state.selectedClass} />
+        <ClassDisplayContainer {...this.state.selectedClass} selectedLevel={this.state.selectedLevel} />
 
         <InfoBox
           selectedClass={this.state.selectedClass}

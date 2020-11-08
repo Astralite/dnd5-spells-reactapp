@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 import './level-selector-dropdown.scss';
 
-const LevelSelectorDropdown = () => {
+const LevelSelectorDropdown = ({ onClickFunction }) => {
   return (
     <Dropdown className="level-selector-dropdown">
       <Dropdown.Toggle variant="dark" id="dropdown-basic">
@@ -13,7 +13,7 @@ const LevelSelectorDropdown = () => {
       <Dropdown.Menu>
         {[...Array(20)].map((val, idx) => {
           return (
-            <Dropdown.Item key={idx} onClick={() => {alert(idx+1)}}>{idx+1}</Dropdown.Item>
+            <Dropdown.Item key={idx} onClick={() => onClickFunction(idx+1)}>{idx+1}</Dropdown.Item>
           )
         })}
       </Dropdown.Menu>
