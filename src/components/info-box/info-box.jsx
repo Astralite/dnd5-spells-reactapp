@@ -39,7 +39,7 @@ const attributes = [
   {
     key: "url",
     prefix: ""
-  },
+  }
 ]
 
 const InfoBox = ({ selectedClass, classInfo }) => {

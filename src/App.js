@@ -8,6 +8,7 @@ import InfoBox from "./components/info-box/info-box";
 import ClassDisplayContainer from './components/subtitle-container/subtitle-container';
 import SpellsContainer from './components/spells-container/spells-container';
 import LevelSelectorDropdown from './components/level-selector-dropdown/level-selector-dropdown';
+import SpellSlots from './components/spell-slots/spell-slots';
 
 class App extends Component {
   constructor() {
@@ -23,7 +24,7 @@ class App extends Component {
         parentIndex: "",
       },
       selectedLevel: 1,
-      spellSlots: {}
+      levelInfo: {}
     };
 
     this.selectClass = (className, classIndex, parentName, parentIndex) => {
@@ -115,24 +116,22 @@ class App extends Component {
     this.updateLevelInfo = () => {
       const primaryClassIndex = this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex;
       if(!primaryClassIndex) return undefined;
-      const currentSpellSlotInfo = this.state.spellSlots[primaryClassIndex];
+      const currentSpellSlotInfo = this.state.levelInfo[primaryClassIndex];
       // If not already obtained then get spell slot information for this class
       // (or parent class in the case of subclass being selected)
       if (typeof currentSpellSlotInfo === "undefined") {
         axios.get(this.apiUrl + "/classes/" + primaryClassIndex + "/levels")
         .then(({ data }) => {
-          const classLevels = data;
-          console.log(classLevels);
 
-          let spellSlots = this.state.spellSlots;
-          spellSlots[primaryClassIndex] = data;
+          let levelInfo = this.state.levelInfo;
+          levelInfo[primaryClassIndex] = data;
           this.setState(
             {
               ...this.state,
-              spellSlots
+              levelInfo
             }
           )
-          
+
         })
       }
     }
@@ -194,9 +193,16 @@ class App extends Component {
         <ClassDisplayContainer {...this.state.selectedClass} selectedLevel={this.state.selectedLevel} />
 
         <InfoBox
-          selectedClass={this.state.selectedClass}
           classInfo={this.selectedClassInfo()}
         />
+
+        {
+          this.state.levelInfo[this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex]
+          && <SpellSlots 
+              selectedLevel={this.state.selectedLevel}
+              levelInfo={this.state.levelInfo[this.state.selectedClass.parentIndex || this.state.selectedClass.classIndex]}
+            />
+        }
 
         <h4 className="menu-item title">Class Spells</h4>
         {(this.selectedClassInfo() && typeof this.selectedClassInfo().spells === "object")
